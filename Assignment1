@@ -1,0 +1,171 @@
+#include <iostream>
+#include <string>
+
+class Student {
+public:
+    int roll;
+    std::string name;
+    int sgpa;
+
+    Student() : roll(0), name(""), sgpa(0) {}
+
+    Student(int roll, std::string name, int sgpa) : roll(roll), name(name), sgpa(sgpa) {}
+
+    std::string toString() {
+        return "Name : " + name + "\nRoll no : " + std::to_string(roll) + "\nSGPA : " + std::to_string(sgpa);
+    }
+};
+class Sorting {
+public:
+    Sorting() {}
+
+    // arrangement of roll number using bubble sort
+    void arrangeRoll(Student students[], int n) {
+        for (int i = n - 1; i > 0; i--) {
+            for (int j = 0; j < i; j++) {
+                if (students[j].roll > students[j + 1].roll) {
+                    Student temp = students[j];
+                    students[j] = students[j + 1];
+                    students[j + 1] = temp;
+                }
+            }
+        }
+    }
+
+    // insertion sort to arrange name alphabetically
+    void arrangeName(Student students[], int n) {
+        for (int i = 1; i < n; i++) {
+            int j = i;
+            while (j > 0 && students[j - 1].name > students[j].name) {
+                Student temp = students[j - 1];
+                students[j - 1] = students[j];
+                students[j] = temp;
+                j--;
+            }
+        }
+    }
+
+    // quick sort by SGPA
+    void quickSortBySGPA(Student students[], int low, int high) {
+        if (low < high) {
+            int pi = partition(students, low, high);
+            quickSortBySGPA(students, low, pi - 1);
+            quickSortBySGPA(students, pi + 1, high);
+        }
+    }
+
+    int partition(Student students[], int low, int high) {
+        int pivot = students[high].sgpa;
+        int i = low - 1;
+        for (int j = low; j < high; j++) {
+            if (students[j].sgpa > pivot) {
+                i++;
+                Student temp = students[i];
+                students[i] = students[j];
+                students[j] = temp;
+            }
+        }
+        Student temp = students[i + 1];
+        students[i + 1] = students[high];
+        students[high] = temp;
+        return i + 1;
+    }
+
+    void topStudents(Student students[], int count) {
+        for (int i = 0; i < count; i++) {
+            std::cout << students[i].toString() << std::endl;
+        }
+    }
+
+    void searchBySGPA(Student students[], int n, int sgpa) {
+        std::cout << "\nStudents with SGPA " << sgpa << ":" << std::endl;
+        bool found = false;
+        for (int i = 0; i < n; i++) {
+            if (students[i].sgpa == sgpa) {
+                std::cout << students[i].toString() << std::endl;
+                found = true;
+            }
+        }
+        if (!found) {
+            std::cout << "No student found with SGPA " << sgpa << std::endl;
+        }
+    }
+
+    void binarySearchByName(Student students[], int n, std::string name) {
+        arrangeName(students, n);  // Ensure students are sorted by name for binary search
+        int low = 0;
+        int high = n - 1;
+        bool found = false;
+        std::cout << "\nSearch result for name '" << name << "':" << std::endl;
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            int res = students[mid].name.compare(name);
+            if (res == 0) {
+                std::cout << students[mid].toString() << std::endl;
+                found = true;
+                break;
+            } else if (res < 0) {
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+        if (!found) {
+            std::cout << "Student not found" << std::endl;
+        }
+    }
+};
+int main() {
+    const int n = 15;
+    Student students[n] = {
+        Student(101, "Alice", 8),
+        Student(102, "Bob", 7),
+        Student(103, "Charlie", 9),
+        Student(104, "David", 6),
+        Student(105, "Eve", 8),
+        Student(106, "Frank", 7),
+        Student(107, "Grace", 9),
+        Student(108, "Heidi", 6),
+        Student(109, "Ivan", 8),
+        Student(110, "Judy", 7),
+        Student(111, "Karl", 9),
+        Student(112, "Leo", 6),
+        Student(113, "Mallory", 8),
+        Student(114, "Niaj", 7),
+        Student(115, "Oscar", 9)
+    };
+
+    Sorting sorting;
+
+    std::cout << "Original List:" << std::endl;
+    for (int i = 0; i < n; i++) {
+        std::cout << students[i].toString() << std::endl;
+    }
+
+    // a) Design a roll call list, arrange list of students according to roll numbers in ascending order (Use Bubble Sort)
+    sorting.arrangeRoll(students, n);
+    std::cout << "\nRoll Call List (Sorted by Roll Number):" << std::endl;
+    for (int i = 0; i < n; i++) {
+        std::cout << students[i].toString() << std::endl;
+    }
+
+    // b) Arrange list of students alphabetically. (Use Insertion sort)
+    sorting.arrangeName(students, n);
+    std::cout << "\nAlphabetical List:" << std::endl;
+    for (int i = 0; i < n; i++) {
+        std::cout << students[i].toString() << std::endl;
+    }
+
+    // c) Arrange list of students to find out first ten toppers from a class. (Use Quick sort)
+    sorting.quickSortBySGPA(students, 0, n - 1);
+    std::cout << "\nTop 10 Toppers:" << std::endl;
+    sorting.topStudents(students, 10);
+
+    // d) Search students according to SGPA.
+    sorting.searchBySGPA(students, n, 8);
+
+    // e) Search a particular student according to name using binary search without recursion.
+    sorting.binarySearchByName(students, n, "Mallory");
+
+    return 0;
+}
