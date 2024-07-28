@@ -55,21 +55,28 @@ public:
     }
 
     int partition(Student students[], int low, int high) {
-        int pivot = students[high].sgpa;
-        int i = low - 1;
-        for (int j = low; j < high; j++) {
-            if (students[j].sgpa > pivot) {
-                i++;
-                Student temp = students[i];
-                students[i] = students[j];
-                students[j] = temp;
-            }
-        }
-        Student temp = students[i + 1];
-        students[i + 1] = students[high];
-        students[high] = temp;
-        return i + 1;
-    }
+        int pivot = students[low].sgpa;
+        int i = low;
+        int j = high;
+        while(i <j){
+        while(students[i].sgpa <= pivot && i <= j){
+              i++;
+         }
+         while(students[j].sgpa > pivot && j >= low){
+              i--;
+         }
+         if( i <j){
+                 Student temp = students[j];
+                students[j] = students[i];
+                students[i] = temp;
+           }
+     }
+        Student temp = students[j];
+        students[j] = students[low];
+        students[low] = temp;
+return j;
+}
+
 
     void topStudents(Student students[], int count) {
         for (int i = 0; i < count; i++) {
@@ -118,21 +125,7 @@ public:
 int main() {
     const int n = 15;
     Student students[n] = {
-        Student(101, "Alice", 8),
-        Student(102, "Bob", 7),
-        Student(103, "Charlie", 9),
-        Student(104, "David", 6),
-        Student(105, "Eve", 8),
-        Student(106, "Frank", 7),
-        Student(107, "Grace", 9),
-        Student(108, "Heidi", 6),
-        Student(109, "Ivan", 8),
-        Student(110, "Judy", 7),
-        Student(111, "Karl", 9),
-        Student(112, "Leo", 6),
-        Student(113, "Mallory", 8),
-        Student(114, "Niaj", 7),
-        Student(115, "Oscar", 9)
+      
     };
 
     Sorting sorting;
