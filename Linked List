@@ -1,0 +1,208 @@
+Singly Linked List
+
+
+public class Main
+{
+	public static void main(String[] args) {
+	   int[]arr = {10,20,30,40,50};
+	  Node head =   createList(arr);
+	  print(head);
+	  System.out.println();
+	  Node node = insertBefore(head, 30, 25);
+	  print(node);
+// 	  System.out.println("Remove  Element");
+// 	  Node el = removeEl(head, 50);
+// 	  print(el);
+// 	  System.out.println("Remove kth");
+// 	  Node kNode = removeKth(head, 2);
+// 	 print(kNode);
+// 	  System.out.println("Remove tail");
+// 	 Node removeTail =  removeTail(head);
+
+// 	  print(removeTail);
+	}
+
+	   public static Node createList(int[]arr){
+        Node head = new Node(arr[0]);
+        Node temp = head;
+        int n = arr.length;
+        for(int i = 1; i < n; i++){
+            Node newnp = new Node(arr[i]);
+            temp.next = newnp;
+            temp = newnp;
+        }
+        return head;
+    }
+    public static void print(Node head){
+        Node temp = head;
+        while(temp != null){
+            System.out.print(temp.data + "  ");
+            temp = temp.next;
+        }
+        
+    }
+    public static Node removeHead(Node head){
+        // if list is empty
+        if(head == null){
+            return null;
+        }
+        // Node temp = head;
+        head = head.next;
+        // temp.next = null;
+        return head;
+    }
+        public static Node removeTail(Node head){
+        // if list is empty
+        if(head == null || head.next == null){
+            return null;
+        }
+        Node temp = head;
+        while(temp.next.next != null){
+            temp = temp.next;
+        }
+        temp.next = null;
+        return head;
+    }
+        public static Node removeKth(Node head, int pos){
+        // if list is empty
+        if(head == null){
+            return null;
+        }
+        if(pos == 1){
+            head = head.next;
+            return head;
+        }
+        Node temp = head;
+        Node prev = null;
+        int cnt = 0;
+        while(temp != null){
+            cnt++;
+            if(cnt == pos){
+                prev.next = prev.next.next;
+                
+                break;
+            }
+            prev = temp;
+            temp = temp.next;
+        }
+        return head;
+    }
+     public static Node removeEl(Node head, int el){
+        // if list is empty
+        if(head == null){
+            return null;
+        }
+        if(el == head.data){
+            head = head.next;
+            return head;
+        }
+        Node temp = head;
+        Node prev = null;
+       
+        while(temp != null){
+          
+            if(temp.data == el){
+                prev.next = prev.next.next;
+                
+                break;
+            }
+            prev = temp;
+            temp = temp.next;
+        }
+        return head;
+    }
+    public static Node insertHead(Node head, int val){
+        if(head == null){
+            Node newnp = new Node(val);
+            return newnp;
+        }
+        Node newnp = new Node(val);
+        newnp.next = head;
+       head = newnp;
+        return head;
+    }
+       public static Node insertTail(Node head, int val){
+        if(head == null){
+            Node newnp = new Node(val);
+            return newnp;
+        }
+       Node temp = head;
+       while(temp.next != null){
+           temp = temp.next;
+       }
+       Node node = new Node(val);
+       temp.next = node;
+       
+        return head;
+    }
+       public static Node insertKth(Node head, int k, int val){
+        if(head == null){
+            if(k==1){
+            Node newnp = new Node(val);
+            return newnp;
+            }
+            else{
+                return null;
+            }
+        }
+        if(k==1){
+            Node node = new Node(val);
+           node.next = head;
+            head =node;
+            return head;
+        }
+        int cnt = 0;
+        Node temp = head;
+        while(temp.next != null){
+            cnt++;
+            if(cnt == k-1){
+                 Node node = new Node(val);
+                 
+                 node.next = temp.next;
+                 temp.next = node;
+                 break;
+            }
+            temp = temp.next;
+        }
+        return head;
+    }
+       public static Node insertBefore(Node head, int el, int val){
+        if(head == null){
+           return null;
+        }
+       if(el == head.data){
+           Node node = new Node(val);
+           node.next = head;
+           head = node;
+           return head;
+       }
+       Node temp = head;
+       Node prev = null;
+       while(temp.next != null){
+           if(temp.data == el){
+               Node node = new Node(val);
+               prev.next = node;
+               node.next = temp;
+               break;
+           }
+           prev = temp;
+           temp = temp.next;
+       }
+        return head;
+    }
+    
+}
+class Node{
+    int data;
+     Node next;
+    Node(int data, Node next){
+        this.data = data;
+        this.next = next;
+        
+    }
+    
+    Node(int data){
+        this.data = data;
+        this.next = null;
+    }
+}
