@@ -1,4 +1,3 @@
-// Online C++ compiler to run C++ program online
 #include <iostream>
 #include <cstring>
 using namespace std;
@@ -21,10 +20,10 @@ public:
     void accept();
     void display();
     void sortRoll();
-    void sortName();
-    int partition(int low, int high);
-    void qs(int low, int high);
-    void sortTopper(int cnt);
+    void sortName(); // Using insertion sort
+    int partitionSGPA(int low, int high);
+    void qsSGPA(int low, int high);
+    void sortTopper(int cnt); // Using quicksort
     void searchSgpa(float a);
     void searchName(const char name[50]);
 };
@@ -49,7 +48,7 @@ void Sorting::display() {
         cout << "Name: " << s[i].name << "\n";
         cout << "Roll no: " << s[i].roll << "\n";
         cout << "SGPA: " << s[i].sgpa << "\n";
-        cout<<"\n";
+        cout << "\n";
     }
 }
 
@@ -66,18 +65,30 @@ void Sorting::sortRoll() {
     }
 }
 
-int Sorting::partition(int low, int high) {
-    char pivot[50];
-    strcpy(pivot, s[low].name);
+void Sorting::sortName() {
+    // Insertion sort
+    for (int i = 1; i < n; i++) {
+        Student key = s[i];
+        int j = i - 1;
+        while (j >= 0 && strcmp(s[j].name, key.name) > 0) {
+            s[j + 1] = s[j];
+            j--;
+        }
+        s[j + 1] = key;
+    }
+}
+
+int Sorting::partitionSGPA(int low, int high) {
+    float pivot = s[low].sgpa;
     int i = low;
     int j = high;
 
     while (i < j) {
-        while (strcmp(s[i].name, pivot) <= 0 && i <= high - 1) {
+        while (s[i].sgpa >= pivot && i <= high - 1) {
             i++;
         }
 
-        while (strcmp(s[j].name, pivot) > 0 && j >= low + 1) {
+        while (s[j].sgpa < pivot && j >= low + 1) {
             j--;
         }
         if (i < j) {
@@ -92,16 +103,20 @@ int Sorting::partition(int low, int high) {
     return j;
 }
 
-void Sorting::qs(int low, int high) {
+void Sorting::qsSGPA(int low, int high) {
     if (low < high) {
-        int pIndex = partition(low, high);
-        qs(low, pIndex - 1);
-        qs(pIndex + 1, high);
+        int pIndex = partitionSGPA(low, high);
+        qsSGPA(low, pIndex - 1);
+        qsSGPA(pIndex + 1, high);
     }
 }
 
-void Sorting::sortName() {
-    qs(0, n - 1);
+void Sorting::sortTopper(int cnt) {
+    qsSGPA(0, n - 1);  
+    for (int i = 0; i < cnt; i++) {
+        cout << "Topper " << i + 1 << ": " << s[i].name << "\n";
+        cout << "SGPA: " << s[i].sgpa << "\n";
+    }
 }
 
 void Sorting::searchSgpa(float a) {
@@ -114,15 +129,6 @@ void Sorting::searchSgpa(float a) {
     }
     if (!flag) {
         cout << "Student with given SGPA not found\n";
-    }
-}
-
-void Sorting::sortTopper(int cnt) {
-    // Assuming sorting by SGPA in descending order to find toppers
-    qs(0, n - 1);
-    for (int i = 0; i < cnt; i++) {
-        cout << "Topper " << i + 1 << ": " << s[i].name << "\n";
-        cout << "SGPA: " << s[i].sgpa << "\n";
     }
 }
 
@@ -154,31 +160,25 @@ int main() {
     Sorting s;
     s.accept();
     s.display();
-    cout<<"\n";
-    cout<<"Sort by roll number \n";
-     s.sortRoll();
+    cout << "\n";
+    cout << "Sort by roll number \n";
+    s.sortRoll();
     s.display();
-    cout<<"\n";
+    cout << "\n";
     
     cout << "Sort by name: \n";
-    cout<<"\n";
     s.sortName();
     s.display();
-    cout<<"\n";
+    cout << "\n";
     
     cout << "Search SGPA 6.0\n";
     s.searchSgpa(6.0);
     
-    cout<<"\n";
-    cout<<"Sort toppers \n";
+    cout << "\n";
+    cout << "Sort toppers \n";
     s.sortTopper(3);
     s.searchName("a");
     
-   
-    
-    // s.searchName("example_name");
-    
-    // s.sortTopper(2);
-
     return 0;
 }
+
