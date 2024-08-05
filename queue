@@ -1,0 +1,134 @@
+
+
+
+#include <iostream>
+using namespace std;
+# define size 5
+
+class CircularQ{
+    private:
+
+      int a[size];
+      
+      int r;
+      int f;
+      
+     
+      public:
+       CircularQ(void){
+         r = f = 0;
+         
+         
+      }
+      
+         int qFull(void);
+         int qEmpty(void);
+       
+         void display(void);
+         void accept(void);
+         void insert(int val);
+         int deleteEl(void);
+         int frontEl(void);
+         int rearEl(void);
+};
+
+int CircularQ :: qEmpty(void){
+ if(r==f){
+ return 1;
+ }
+ return 0;
+}
+int CircularQ :: qFull(void){
+ if(((r+1)% size)==f){
+ return 1;
+ }
+ return 0;
+}
+void CircularQ :: insert(int el){
+   
+    r = (r+1)% size;
+    a[r] = el;
+    
+}
+int CircularQ :: deleteEl(void){
+ 
+  f = (f+1)%size;
+  return a[f];
+}
+void CircularQ:: display(void){
+     int i = (f+1)%size;
+   while(i!= ((r+1)%size)){
+       cout<<a[i];
+        i++;
+      } 
+ }
+ int CircularQ :: frontEl(void){
+ 
+  
+  return a[((f+1)% size)];
+}
+int CircularQ :: rearEl(void){
+ 
+  
+  return a[r];
+}
+ 
+ 
+ 
+
+
+
+ 
+ int main(void){
+    CircularQ q;
+    // q.insert(5);
+    // int option;
+    // q.display();
+    // int front = q.frontEl();
+    // cout<<"\n";
+    // cout<<front;
+    int option;
+    int val = q.qEmpty();
+    if(val == 1){
+    int flag = 1;
+    do{
+            cout<<"1. Insert \n";
+            cout<<"2. Delete \n";
+            cout<<"3.  Display \n";
+            cout<<"4. Front element \n";
+            cout<<"5. Rear Element \n";
+            cout<<"6. Exit \n";
+            cout<<"Enter choice \n";
+            cin>>option;
+            cout<<"\n";
+            
+            switch(option){
+              case 1: q.insert(5);
+                       break;
+                       
+              case 2: 	q.deleteEl();
+                        break;
+              case 3: 	q.display();
+                        cout<<"\n";
+                        break;
+              case 4: 	
+                        cout<<q.frontEl()<<"\n";
+                        break;
+              case 5: 	 q.rearEl();
+                        cout<<q.rearEl()<<"\n";
+                        break;
+              case 6 : cout<<"Exit..";
+                       exit(0);
+                       break;
+              default: cout<<"Invalid";
+              
+            }
+            
+     }while(1);
+     }
+     else{
+             cout<<"List is full";
+      }
+      
+    return 0;
+ }
