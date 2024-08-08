@@ -1,0 +1,56 @@
+#include<iostream>
+using namespace std;
+#define SIZE 20
+struct stkNode{
+  int data;
+  stkNode* next;
+};
+
+class Stack{
+  private:
+   stkNode*top;
+   
+  public:
+   Stack(void){
+   top = nullptr;
+   } 
+   
+   void push();
+   int pop(void);
+   void display(void);
+   
+};
+
+void Stack:: push(){
+ stkNode*newnp = nullptr;
+ newnp = new stkNode;
+ newnp->data = 10;
+ newnp->next = top;
+ top = newnp;
+}
+int Stack :: pop(void){
+int val;
+
+stkNode*temp;
+temp = top;
+top = temp->next;
+val = temp->data;
+delete temp;
+return(val);
+}
+void Stack::display(void){
+ stkNode*temp;
+ temp = top;
+ while(temp!=nullptr){
+  cout<<temp->data<<"\n";
+  temp = temp->next;
+ }
+}
+int main(){
+Stack s;
+s.push();
+s.display();
+return 0;
+}
+
+
