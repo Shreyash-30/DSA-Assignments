@@ -1,0 +1,88 @@
+#include<iostream>
+using namespace std;
+
+struct BTNODE{
+   BTNODE*l;
+   int data;
+   BTNODE*r;
+};
+class BST{
+
+ private :
+   BTNODE*root;
+   
+   public:
+     BST(void){
+       root = nullptr;
+     } 
+     
+     void create(void);
+     void traverse();
+     void inorder(BTNODE*root);
+          
+};
+void BST :: create(){
+    int i;
+    int n;
+    cout<<"How many values to insert";
+    cin>>n;
+    cout<<"Enter data";
+    BTNODE*temp = nullptr;
+    for(int i = 1;i<=n; i++){
+    BTNODE*newnp = new BTNODE;
+    
+    cin>>newnp->data;
+    newnp->l = newnp->r = nullptr;
+    if(i==1){
+      root = newnp;
+    }
+    else{
+      BTNODE*par = nullptr;
+      temp = root;
+      while(temp!=nullptr){
+      par = temp;
+      if(newnp->data<temp->data){
+       temp = temp->l;
+       }
+       else{
+       temp = temp->r;
+       }
+      }
+      
+      if(newnp->data<par->data){
+       par->l = newnp;
+       }
+       else{
+        par->r = newnp;
+        }
+        
+       
+       
+    }
+}
+}
+void BST :: inorder(BTNODE*root){
+if(root!=nullptr){
+  inorder(root->l);
+  cout<<root->data<<" ";
+  cout>>" ";
+  inorder(root->r);
+  cout<<" ";
+  
+}
+
+}
+
+void BST::traverse(void){
+    inorder(root);
+    cout<<" ";
+}
+
+int main(){
+  BST T;
+  T.create();
+  T.traverse();
+  
+  return 0;
+}
+
