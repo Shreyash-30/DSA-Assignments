@@ -19,6 +19,8 @@ class BST{
      void create(void);
      void traverse();
      void inorder(BTNODE*root);
+      void preOrder(BTNODE*root);
+       void postOrder(BTNODE*root);
           
 };
 void BST :: create(){
@@ -65,16 +67,39 @@ void BST :: inorder(BTNODE*root){
 if(root!=nullptr){
   inorder(root->l);
   cout<<root->data<<" ";
-  cout>>" ";
+ 
   inorder(root->r);
   cout<<" ";
   
 }
 
 }
+void BST :: preOrder(BTNODE*root){
+   BTNODE*temp = root;
+   if(temp!=nullptr){
+      cout<<temp->data;
+      preOrder(temp->l);
+      preOrder(temp->r);
+   }
 
+}
+void BST :: postOrder(BTNODE*root){
+   BTNODE*temp = root;
+   if(temp!=nullptr){
+     
+      preOrder(temp->l);
+      preOrder(temp->r);
+       cout<<temp->data;
+   }
+
+}
+void BST :: in(BTNODE*root){
+     
+
+
+}
 void BST::traverse(void){
-    inorder(root);
+    postOrder(root);
     cout<<" ";
 }
 
@@ -85,4 +110,3 @@ int main(){
   
   return 0;
 }
-
